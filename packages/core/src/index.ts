@@ -7,3 +7,4 @@
 export * from './types.js'
 export * from './phases.js'
 export * from './ddl.js'
+export * from './diff/index.js'
