@@ -1,5 +1,6 @@
 import type { Plan, Snapshot } from '../types.js'
 import { OperationBuilder, type DiffOptions } from './builder.js'
+import { diffEnums } from './enums.js'
 import { diffSchemas } from './schemas.js'
 import { diffTables } from './tables.js'
 
@@ -20,6 +21,7 @@ export function diffSnapshots(
   const b = new OperationBuilder()
 
   diffSchemas(b, source, target)
+  diffEnums(b, source, target)
   diffTables(b, source, target, options)
 
   return { operations: b.operations, warnings: b.warnings }
