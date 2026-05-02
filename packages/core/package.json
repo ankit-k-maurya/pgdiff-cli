@@ -9,6 +9,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./introspect": {
+      "types": "./dist/introspect.d.ts",
+      "default": "./dist/introspect.js"
     }
   },
   "files": [
@@ -17,8 +21,12 @@
   "scripts": {
     "build": "tsc -b"
   },
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
     "typescript": "^5.7.2"
   }
 }
