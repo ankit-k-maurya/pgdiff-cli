@@ -19,7 +19,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "test": "tsc -p tsconfig.test.json && node --test \".tsbuild/test/*.test.js\""
   },
   "dependencies": {
     "pg": "^8.13.1"
