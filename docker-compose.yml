@@ -1,0 +1,24 @@
+# Two throwaway databases to diff against each other.
+#   docker compose up -d
+#   npm run pgdiff -- --from postgresql://pgdiff:pgdiff@localhost:5441/app \
+#                     --to   postgresql://pgdiff:pgdiff@localhost:5442/app
+services:
+  source:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pgdiff
+      POSTGRES_PASSWORD: pgdiff
+      POSTGRES_DB: app
+    ports: ["5441:5432"]
+    volumes:
+      - ./examples/source.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+
+  target:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pgdiff
+      POSTGRES_PASSWORD: pgdiff
+      POSTGRES_DB: app
+    ports: ["5442:5432"]
+    volumes:
+      - ./examples/target.sql:/docker-entrypoint-initdb.d/schema.sql:ro
