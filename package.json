@@ -5,13 +5,15 @@
   "description": "Diff two live PostgreSQL schemas and emit reversible up/down migrations.",
   "type": "module",
   "workspaces": [
-    "packages/core"
+    "packages/core",
+    "packages/cli"
   ],
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "build": "npm run build -w @pgdiff/core",
-    "test": "npm run test -w @pgdiff/core"
+    "build": "npm run build -w @pgdiff/cli",
+    "test": "npm run test -w @pgdiff/core",
+    "pgdiff": "node packages/cli/dist/index.js"
   }
 }
