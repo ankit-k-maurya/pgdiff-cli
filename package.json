@@ -6,14 +6,17 @@
   "type": "module",
   "workspaces": [
     "packages/core",
-    "packages/cli"
+    "packages/cli",
+    "packages/server"
   ],
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "build": "npm run build -w @pgdiff/cli",
+    "build": "npm run build -w @pgdiff/cli && npm run build -w @pgdiff/server",
     "test": "npm run test -w @pgdiff/core",
-    "pgdiff": "node packages/cli/dist/index.js"
+    "pgdiff": "node packages/cli/dist/index.js",
+    "prestart": "npm run build -w @pgdiff/server",
+    "start": "npm start -w @pgdiff/server"
   }
 }
