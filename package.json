@@ -17,8 +17,12 @@
     "build": "npm run build -w @pgdiff/cli && npm run build -w @pgdiff/server && npm run build -w @pgdiff/web",
     "test": "npm run test -w @pgdiff/core",
     "dev": "node scripts/run-parallel.mjs \"npm run dev -w @pgdiff/server\" \"npm run dev -w @pgdiff/web\"",
+    "dev:db": "node scripts/dev-db.mjs",
     "pgdiff": "node packages/cli/dist/index.js",
     "prestart": "npm run build -w @pgdiff/server && npm run build -w @pgdiff/web",
     "start": "npm start -w @pgdiff/server"
+  },
+  "devDependencies": {
+    "embedded-postgres": "18.4.0-beta.17"
   }
 }
