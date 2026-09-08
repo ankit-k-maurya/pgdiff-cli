@@ -1,0 +1,26 @@
+{
+  "name": "@pgdiff/server",
+  "version": "0.1.0",
+  "description": "HTTP API that backs the pgdiff web UI.",
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "files": [
+    "dist/src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/index.js",
+    "dev": "tsc -p tsconfig.json && { tsc -p tsconfig.json --watch --preserveWatchOutput & node --watch dist/src/index.js; }"
+  },
+  "dependencies": {
+    "@pgdiff/core": "0.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

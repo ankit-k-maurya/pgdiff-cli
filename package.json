@@ -1,0 +1,23 @@
+{
+  "name": "pgdiff",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Diff two live PostgreSQL schemas and emit reversible up/down migrations.",
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/cli",
+    "packages/server",
+    "packages/web"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build -w @pgdiff/core && npm run build -w @pgdiff/cli && npm run build -w @pgdiff/server && npm run build -w @pgdiff/web",
+    "test": "npm run test -w @pgdiff/core",
+    "dev": "(trap 'kill 0' EXIT INT; npm run dev -w @pgdiff/server & npm run dev -w @pgdiff/web)",
+    "pgdiff": "node packages/cli/dist/src/index.js",
+    "start": "npm start -w @pgdiff/server"
+  }
+}

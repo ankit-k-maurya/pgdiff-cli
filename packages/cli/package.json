@@ -1,0 +1,20 @@
+{
+  "name": "@pgdiff/cli",
+  "version": "0.1.0",
+  "description": "Command line interface for pgdiff.",
+  "type": "module",
+  "bin": { "pgdiff": "./dist/src/index.js" },
+  "files": ["dist/src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/index.js"
+  },
+  "dependencies": {
+    "@pgdiff/core": "0.1.0",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}
