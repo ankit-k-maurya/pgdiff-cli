@@ -4,6 +4,17 @@
   "description": "HTTP API that backs the pgdiff web UI.",
   "type": "module",
   "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
+    "./app": {
+      "types": "./dist/src/app.d.ts",
+      "default": "./dist/src/app.js"
+    }
+  },
   "files": [
     "dist/src"
   ],
