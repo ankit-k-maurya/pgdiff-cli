@@ -21,7 +21,7 @@ npm install
 npm run build
 
 # two throwaway databases with the example schemas
-docker compose up -d
+docker compose up -d     # or, without Docker: npm run dev:db
 
 npm run pgdiff -- \
   --from postgresql://pgdiff:pgdiff@localhost:5441/app \
@@ -37,6 +37,16 @@ npm run dev          # api on :4000, ui on :5173
 
 After `npm run build` the API also serves the built UI, so `npm start -w @pgdiff/server`
 alone is enough in production.
+
+### Without Docker
+
+`npm run dev:db` starts the same two databases on 5441/5442 from the `embedded-postgres`
+binaries, seeded with the example schemas, keeping their data in `.dev-db/`. It runs in the
+foreground and the clusters are its children, so leave it running and stop it with Ctrl-C.
+Running it again while they are already up just reports that and exits, so it is safe to
+repeat. Pass `--reset` (`npm run dev:db -- --reset`) to wipe the data directories and
+re-seed — stop the running one first, since `--reset` cannot rebuild a cluster that is
+still listening.
 
 ## How the ordering works
 
@@ -145,7 +155,7 @@ migration to the source, checks it now matches the target, applies the down migr
 checks it matches where it started:
 
 ```bash
-docker compose up -d
+docker compose up -d     # or: npm run dev:db
 PGDIFF_SOURCE_URL=postgresql://pgdiff:pgdiff@localhost:5441/app \
 PGDIFF_TARGET_URL=postgresql://pgdiff:pgdiff@localhost:5442/app \
 npm test
