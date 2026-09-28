@@ -24,5 +24,9 @@
   },
   "devDependencies": {
     "embedded-postgres": "18.4.0-beta.17"
+  },
+  "dependencies": {
+    "cli": "^1.0.1",
+    "vercel": "^60.1.3"
   }
 }
