@@ -5,7 +5,14 @@
   "buildCommand": "[ -d node_modules/vite ] || npm ci --include=dev --include-workspace-root -w @pgdiff/core -w @pgdiff/cli -w @pgdiff/server -w @pgdiff/web && npm run build -w @pgdiff/core && npm run build -w @pgdiff/server && npm run build -w @pgdiff/web",
   "outputDirectory": "packages/web/dist",
   "functions": {
-    "api/index.ts": { "maxDuration": 60 }
+    "api/index.ts": {
+      "maxDuration": 60
+    }
   },
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    }
+  ]
 }
