@@ -40,4 +40,5 @@ test('a config object and an unparseable string pass through untouched', () => {
   const config = { host: 'ep-x.aws.neon.tech', database: 'app' }
   assert.equal(clientConfig(config), config)
   assert.deepEqual(clientConfig('not a url'), { connectionString: 'not a url' })
+  // `pg` will throw on this, but we don't want to.
 })
