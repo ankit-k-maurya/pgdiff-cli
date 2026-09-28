@@ -3,6 +3,7 @@ import express from 'express'
 import { createMigration, type Snapshot } from '@pgdiff/core'
 import { introspect, listSchemas } from '@pgdiff/core/introspect'
 import { asyncRoute, HttpError, requireString, toSchemas } from './http.js'
+import { assertReachable } from './reachability.js'
 
 export const VERSION = '0.1.0'
 
@@ -24,11 +25,13 @@ app.get('/api/health', (_req, res) => {
 /** List the schemas in a database so the UI can offer them. */
 app.post('/api/schemas', asyncRoute(async (req, res) => {
   const url = requireString(req.body?.url, 'url')
+  assertReachable(url, 'url')
   res.json({ schemas: await listSchemas(url) })
 }))
 
 app.post('/api/introspect', asyncRoute(async (req, res) => {
   const url = requireString(req.body?.url, 'url')
+  assertReachable(url, 'url')
   res.json({ snapshot: await introspect(url, { schemas: toSchemas(req.body?.schemas) }) })
 }))
 
@@ -52,7 +55,10 @@ function resolveSide(side: unknown, schemas: string[], label: string): Promise<S
   const body = (side ?? {}) as { url?: unknown; snapshot?: unknown }
 
   if (body.snapshot) return Promise.resolve(body.snapshot as Snapshot)
-  if (typeof body.url === 'string') return introspect(body.url, { schemas })
+  if (typeof body.url === 'string') {
+    assertReachable(body.url, label)
+    return introspect(body.url, { schemas })
+  }
   throw new HttpError(400, `"${label}" must be { url } or { snapshot }`)
 }
 

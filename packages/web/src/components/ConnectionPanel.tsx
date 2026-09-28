@@ -1,3 +1,5 @@
+import { localTargetWarning } from '../localTarget'
+
 interface Props {
   title: string
   hint: string
@@ -6,6 +8,8 @@ interface Props {
 }
 
 export function ConnectionPanel({ title, hint, value, onChange }: Props) {
+  const warning = localTargetWarning(value)
+
   return (
     <section className="panel">
       <h2>{title}</h2>
@@ -15,10 +19,11 @@ export function ConnectionPanel({ title, hint, value, onChange }: Props) {
         type="text"
         spellCheck={false}
         autoComplete="off"
-        placeholder="postgresql://user:password@localhost:5432/database"
+        placeholder="postgresql://user:password@host:5432/database"
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />
+      {warning && <p className="notice warn field-notice">{warning}</p>}
     </section>
   )
 }

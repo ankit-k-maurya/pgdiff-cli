@@ -131,3 +131,4 @@ ul.ops li + li { margin-top: 6px; }
 .notice.error { background: #2a1416; border: 1px solid #4a1f1f; color: #ff9d97; }
 .notice.warn { background: #241d0e; border: 1px solid #4a3c14; color: #e3b341; }
 .notice.empty { background: var(--panel); border: 1px solid var(--border); color: var(--muted); }
+.field-notice { margin: 10px 0 0; line-height: 1.5; }
