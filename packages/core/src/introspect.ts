@@ -221,14 +221,55 @@ export async function snapshotFromClient(
   return snapshot
 }
 
+/** Hosts that are reachable without TLS because they never leave the machine. */
+function isLoopbackHost(host: string): boolean {
+  return (
+    host === '' ||
+    host === 'localhost' ||
+    host.endsWith('.localhost') ||
+    host === '::1' ||
+    /^127\./.test(host)
+  )
+}
+
+/**
+ * Turn a connection URL into a client config, defaulting to TLS off-box.
+ *
+ * `pg` only enables TLS when the URL carries an `sslmode`, so a bare
+ * `postgresql://user:pass@ep-x.aws.neon.tech/db` dials in cleartext. Neon,
+ * Supabase and RDS all refuse that, and the resulting error names neither TLS
+ * nor the missing parameter. Anything that is not loopback therefore gets
+ * libpq's `require` semantics -- encrypt the connection, do not verify the
+ * certificate -- which is what a managed Postgres needs and what a private CA
+ * or self-signed RDS certificate can still satisfy.
+ *
+ * An explicit `sslmode` in the URL always wins; `pg` parses it and this adds
+ * nothing.
+ */
+export function clientConfig(connection: string | pg.ClientConfig): pg.ClientConfig {
+  if (typeof connection !== 'string') return connection
+
+  const config: pg.ClientConfig = { connectionString: connection }
+  let url: URL
+  try {
+    url = new URL(connection)
+  } catch {
+    return config // Not a URL we can read; let the driver report it.
+  }
+
+  if (url.searchParams.has('sslmode') || url.searchParams.has('ssl')) return config
+  const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, '')
+  if (isLoopbackHost(host)) return config
+
+  return { ...config, ssl: { rejectUnauthorized: false } }
+}
+
 /** Connect, run `use`, disconnect — whatever happens in between. */
 async function withClient<T>(
   connection: string | pg.ClientConfig,
   use: (client: pg.Client) => Promise<T>,
 ): Promise<T> {
-  const config: pg.ClientConfig =
-    typeof connection === 'string' ? { connectionString: connection } : connection
-  const client = new pg.Client(config)
+  const client = new pg.Client(clientConfig(connection))
   await client.connect()
   try {
     return await use(client)
